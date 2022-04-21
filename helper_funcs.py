@@ -10,6 +10,12 @@ def BsonToJson(data):
     Returns:
         json : Returns the data in converted form.
     """
-    parsed_data =  json_loads(bson_dumps(data))[0]
-    parsed_data["_id"] = parsed_data["_id"]["$oid"]
-    return parsed_data
+    try:
+        parsed_data =  json_loads(bson_dumps(data))[0]
+        parsed_data["_id"] = parsed_data["_id"]["$oid"]
+        return parsed_data
+    except:
+        parsed_data =  json_loads(bson_dumps(data))
+        parsed_data["_id"] = parsed_data["$oid"]
+        del parsed_data["$oid"]
+        return parsed_data
