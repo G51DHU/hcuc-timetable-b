@@ -31,7 +31,7 @@ COLLECTION = {
 @app.get("/list_of_software")
 async def ListSoftware():
     response = COLLECTION["software"].find({})
-    return BsonToJson(response)
+    return [BsonToJson(response)]
 
 class Software(BaseModel):
     name: str
