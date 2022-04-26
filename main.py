@@ -48,4 +48,4 @@ async def AddSoftware(software:Software):
         _type_: dict
     """
     response = COLLECTION["software"].insert_one(software.__dict__)
-    return {"Object": {"assigned_id": BsonToJson(response.inserted_id)}}
+    return {"Object": {"assigned_id": str(response.inserted_id)}}
