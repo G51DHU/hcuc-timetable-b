@@ -1,8 +1,12 @@
+from typing import List, Dict
 from fastapi import FastAPI
 from pymongo import MongoClient
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from helper_funcs import *
+from bson.objectid import ObjectId
+from bson.json_util import dumps as bson_dumps
+from json import loads as json_loads
 
 app = FastAPI()
 
@@ -10,8 +14,8 @@ origins = [
     "http://localhost.tiangolo.com",
     "https://localhost.tiangolo.com",
     "http://localhost",
-    "http://localhost:8080",
     "http://localhost:3000",
+    "http://10.52.23.208:3000",
 ]
 
 app.add_middleware(
@@ -49,3 +53,12 @@ async def AddSoftware(software:Software):
     """
     response = COLLECTION["software"].insert_one(software.__dict__)
     return {"Object": {"assigned_id": str(response.inserted_id)}}
+
+
+class SoftwareToDelete(BaseModel):
+    software_list: List[Dict[str, str]]
+
+@app.delete("/delete_software")
+async def DeleteSoftware(software:SoftwareToDelete):
+    response = COLLECTION["software"].delete_many({"_id": {"$in": [ObjectId(each_software["$oid"]) for each_software in software.software_list]}})
+    print((response))
