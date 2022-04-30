@@ -16,6 +16,9 @@ origins = [
     "http://localhost",
     "http://localhost:3000",
     "http://10.52.23.208:3000",
+    "http://192.168.1.211:3000",
+    "http://192.168.182.1:3000",
+    "http://192.168.206.1:3000"
 ]
 
 app.add_middleware(
@@ -56,9 +59,9 @@ async def AddSoftware(software:Software):
 
 
 class SoftwareToDelete(BaseModel):
-    software_list: List[Dict[str, str]]
+    software_list: List[str]
 
 @app.delete("/delete_software")
 async def DeleteSoftware(software:SoftwareToDelete):
-    response = COLLECTION["software"].delete_many({"_id": {"$in": [ObjectId(each_software["$oid"]) for each_software in software.software_list]}})
+    response = COLLECTION["software"].delete_many({"_id": {"$in": [ObjectId(each_software) for each_software in software.software_list]}})
     print((response))
