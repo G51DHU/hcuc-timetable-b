@@ -1,12 +1,10 @@
-from typing import List, Dict
+from typing import List
 from fastapi import FastAPI
 from pymongo import MongoClient
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from helper_funcs import *
 from bson.objectid import ObjectId
-from bson.json_util import dumps as bson_dumps
-from json import loads as json_loads
 
 app = FastAPI()
 
@@ -63,5 +61,4 @@ class SoftwareToDelete(BaseModel):
 
 @app.delete("/delete_software")
 async def DeleteSoftware(software:SoftwareToDelete):
-    response = COLLECTION["software"].delete_many({"_id": {"$in": [ObjectId(each_software) for each_software in software.software_list]}})
-    print((response))
+    COLLECTION["software"].delete_many({"_id": {"$in": [ObjectId(each_software) for each_software in software.software_list]}})
