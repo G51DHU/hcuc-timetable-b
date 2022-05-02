@@ -62,3 +62,28 @@ class SoftwareToDelete(BaseModel):
 @app.delete("/delete_software")
 async def DeleteSoftware(software:SoftwareToDelete):
     COLLECTION["software"].delete_many({"_id": {"$in": [ObjectId(each_software) for each_software in software.software_list]}})
+
+
+class Rooms(BaseModel):
+    block: str
+
+
+@app.post("/add_rooms")
+async def AddRooms(rooms:rooms):
+    """Endpoint for users to add new types of software.
+
+    Args:
+        software (Software): Takes in an object corresponding to the "Software" schema.
+
+    Returns:
+        _type_: dict
+    """
+    response = COLLECTION["software"].insert_one(rooms.__dict__)
+    return {"Object": {"assigned_id": str(response.inserted_id)}}
+
+
+@app.get("/list_of_rooms")
+async def ListRooms():
+    response = COLLECTION["rooms"].find({})
+    return BsonToJson(response)
+
