@@ -1,12 +1,13 @@
-from typing import List
 from fastapi import FastAPI
-from pymongo import MongoClient
-from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
-from helper_funcs import *
-from bson.objectid import ObjectId
 
-app = FastAPI()
+import modules.rooms as rooms
+import modules.software as software
+
+
+app = FastAPI(
+    title="HCUC-Timetable"
+)
 
 origins = [
     "http://localhost.tiangolo.com",
@@ -27,63 +28,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-client = MongoClient('localhost', 27017)["hcuc-timetable"]
+app.include_router(rooms.router)
+app.include_router(software.router)
 
-COLLECTION = {
-    "software": client["software"]
-}
-
-@app.get("/list_of_software")
-async def ListSoftware():
-    response = COLLECTION["software"].find({})
-    return BsonToJson(response)
-
-class Software(BaseModel):
-    name: str
-    version: str
-
-@app.post("/add_software")
-async def AddSoftware(software:Software):
-    """Endpoint for users to add new types of software.
-
-    Args:
-        software (Software): Takes in an object corresponding to the "Software" schema.
-
-    Returns:
-        _type_: dict
-    """
-    response = COLLECTION["software"].insert_one(software.__dict__)
-    return {"Object": {"assigned_id": str(response.inserted_id)}}
-
-
-class SoftwareToDelete(BaseModel):
-    software_list: List[str]
-
-@app.delete("/delete_software")
-async def DeleteSoftware(software:SoftwareToDelete):
-    COLLECTION["software"].delete_many({"_id": {"$in": [ObjectId(each_software) for each_software in software.software_list]}})
-
-
-class Rooms(BaseModel):
-    block: str
-
-
-@app.post("/add_rooms")
-async def AddRooms(rooms:rooms):
-    """Endpoint for users to add new types of software.
-
-    Args:
-        software (Software): Takes in an object corresponding to the "Software" schema.
-
-    Returns:
-        _type_: dict
-    """
-    response = COLLECTION["software"].insert_one(rooms.__dict__)
-    return {"Object": {"assigned_id": str(response.inserted_id)}}
-
-
-@app.get("/list_of_rooms")
-async def ListRooms():
-    response = COLLECTION["rooms"].find({})
-    return BsonToJson(response)
 
