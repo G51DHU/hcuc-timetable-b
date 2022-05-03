@@ -19,7 +19,6 @@ router = APIRouter(
 #
 class Rooms(BaseModel):
     name: str
-    block: str
     software_id: List[str]
 
 #

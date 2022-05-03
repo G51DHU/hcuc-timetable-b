@@ -1,9 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
-import modules.rooms as rooms
-import modules.software as software
-
+from endpoints import rooms, software
 
 app = FastAPI(
     title="HCUC-Timetable"

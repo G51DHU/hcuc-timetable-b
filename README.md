@@ -10,7 +10,6 @@ This is the backend for https://github.com/g51dhu/hcuc-timetable .
 
 - Python
 - Git
-- A life
 
 ### Download
 
