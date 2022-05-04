@@ -48,6 +48,7 @@ async def FindSoftwareByID(software_list: List[str]):
         Endpoint for users to find all software by ID.
     """
     response = client["software"].find({"_id": {"$in": [ObjectId(each_software) for each_software in software_list] }})
+    return BsonToJson(response)
     
 @router.delete("")
 async def DeleteSoftware(software:SoftwareToDelete):
