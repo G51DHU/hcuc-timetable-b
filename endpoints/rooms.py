@@ -1,4 +1,4 @@
-from typing import List
+from typing import Dict, List
 from pydantic import BaseModel
 from fastapi import APIRouter
 from pymongo import MongoClient
@@ -19,12 +19,12 @@ router = APIRouter(
 #
 class Rooms(BaseModel):
     name: str
-    software_id: List[str]
+    software: List[Dict[str,str]]
 
 #
 # Functions
 #
-@router.post("/add")
+@router.post("")
 async def AddRooms(rooms:Rooms):
     """
         Endpoint for users to add new types of software.
