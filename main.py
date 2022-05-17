@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from endpoints import rooms, software
+from endpoints import rooms, software, courses
 
 app = FastAPI(
     title="HCUC-Timetable"
@@ -27,5 +27,7 @@ app.add_middleware(
 
 app.include_router(rooms.router)
 app.include_router(software.router)
+app.include_router(courses.router)
+
 
 
