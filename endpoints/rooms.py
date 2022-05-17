@@ -21,6 +21,9 @@ class Rooms(BaseModel):
     name: str
     software: List[Dict[str,str]]
 
+class RoomsToDelete(BaseModel):
+    room_list: List[str]
+
 #
 # Functions
 #
@@ -50,8 +53,8 @@ async def RoomsByBlock(block_letter:str):
     return BsonToJson(response)
 
 @router.delete("")
-async def DeleteRooms(room_ids:List[str]):
+async def DeleteRooms(rooms:RoomsToDelete):
     """
         Endpoint to delete rooms.
     """
-    client["software"].delete_many({"_id": {"$in": [ObjectId(id) for id in room_ids]}})
+    client["rooms"].delete_many({"_id": {"$in": [ObjectId(each_room) for each_room in rooms.room_list]}})
