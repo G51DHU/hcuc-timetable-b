@@ -1,4 +1,5 @@
-from typing import Dict, List, TypedDict
+from typing import Dict, List
+from typing_extensions import TypedDict
 from pydantic import BaseModel
 from fastapi import APIRouter
 from pymongo import MongoClient

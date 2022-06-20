@@ -23,4 +23,4 @@ This is the backend for https://github.com/g51dhu/hcuc-timetable .
 - Copy and paste the following command <br/> `cd hcuc-timetable-b ; py -m venv venv ; ./venv/Scripts/activate ; uvicorn main:app --reload`
 
 #### Linux
-- Copy and paste the following command <br/> `cd hcuc-timetable-b ; python -m venv venv ; ./venv/bin/activate ; uvicorn main:app --reload `
+- Copy and paste the following command <br/> `cd hcuc-timetable-b ; python -m venv venv ; source ./venv/bin/activate ; uvicorn main:app --reload `
