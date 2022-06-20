@@ -21,13 +21,13 @@ class Courses(BaseModel):
     class Units(TypedDict):
         name: str
         code: str
-        software: Dict[str,str]
+        software: List[Dict[str,str]]
         teacher: str
         timetabledHours: int
 
     name: str
     code: str
-    units: List[Units]
+    units: List [Units]
 
 class CoursesToDelete(BaseModel):
     course_list: List[str]
